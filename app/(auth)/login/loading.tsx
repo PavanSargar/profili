@@ -1,13 +1,9 @@
-import React from "react";
-import { FaSpinner } from "react-icons/fa6";
+import Loader from "@components/loader";
+
 type Props = {};
 
 const Loading = (props: Props) => {
-  return (
-    <div className="animate-spin">
-      <FaSpinner fontSize={24} />
-    </div>
-  );
+  return <Loader />;
 };
 
 export default Loading;
