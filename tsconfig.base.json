@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@app/*": ["/*"],
+      "@components/*": ["components/*"],
+      "@lib/*": ["lib/*"],
+      "@utils/*": ["utils/*"],
+      "@models/*": ["app/api/models/*"],
+      "@api/*": ["app/api/*"]
+    },
+    "importHelpers": true
+  }
+}
