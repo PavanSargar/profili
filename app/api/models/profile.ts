@@ -21,12 +21,16 @@ const profileSchema: Schema<IProfile> = new Schema(
     },
     profilePic: {
       type: String,
+      required: false,
+      default: '',
     },
     bio: {
       type: String,
+      required: false,
     },
     displayName: {
       type: String,
+      required: true,
     },
     icons: [
       {
@@ -38,8 +42,5 @@ const profileSchema: Schema<IProfile> = new Schema(
   { timestamps: true }
 );
 
-const ProfileModel: Model<IProfile> = mongoose.model<IProfile>(
-  "Profile",
-  profileSchema
-);
-export default ProfileModel;
+export default (mongoose.models.Profile ||
+  mongoose.model("Profile", profileSchema)) as Model<IProfile>;

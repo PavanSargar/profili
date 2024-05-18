@@ -1,6 +1,7 @@
 "use client";
 import * as React from "react";
-
+import { signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,8 +9,6 @@ import {
   DropdownMenuTrigger,
 } from "@components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { signOut } from "next-auth/react";
-import { useRouter } from "next/navigation";
 
 interface UserMenuToggleProps {
   image?: string;
@@ -39,8 +38,8 @@ export function UserMenuToggle({ image, name }: UserMenuToggleProps) {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => router.push("/profile")}>
-          Profile Settings
+        <DropdownMenuItem onClick={() => router.push("/dashboard")}>
+          Dashboard
         </DropdownMenuItem>
         <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
       </DropdownMenuContent>

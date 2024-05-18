@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
 import { signIn, useSession } from "next-auth/react";
 import { redirect, useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -11,14 +12,13 @@ import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
 import { Separator } from "@components/ui/separator";
 import { loginSchema } from "../schema";
-import Link from "next/link";
 
 type LoginFormValues = z.infer<typeof loginSchema>;
 
 interface LoginFormProps {}
 
 const LoginForm = (props: LoginFormProps) => {
-    
+  const [loading, setLoading] = useState<boolean>(false);
   const {
     register,
     handleSubmit,
@@ -43,25 +43,27 @@ const LoginForm = (props: LoginFormProps) => {
 
   const onSubmit: SubmitHandler<LoginFormValues> = async (data) => {
     const { email, password } = data;
+    setLoading(true);
     const res = await signIn("credentials", {
       redirect: false,
       email,
       password,
     });
-
-    if (res?.status === 401) {
+    if (res?.status === 401 || res === undefined || !res) {
       setCredError(
         "Incorrect email or password. Please try again with correct credentials."
       );
+      setLoading(false);
     }
+
     if (res?.ok) {
       router.push("/");
     }
   };
   return (
-    <div className="flex items-center justify-center h-[100svh]">
+    <div className="flex items-center justify-center lg:h-[100svh] p-6 lg:p-0">
       <form
-        className="justify-center block w-1/3"
+        className="flex flex-col gap-2 w-auto lg:w-[400px] border border-muted border-1 rounded-xl p-6"
         onSubmit={handleSubmit(onSubmit)}
       >
         <Input
@@ -71,7 +73,8 @@ const LoginForm = (props: LoginFormProps) => {
           name="email"
           label="Email"
           type="email"
-          className="mb-2 text-lg"
+          className="text-sm w-full"
+          disabled={loading}
         />
         <Input
           {...register("password", { required: true })}
@@ -80,38 +83,47 @@ const LoginForm = (props: LoginFormProps) => {
           type="password"
           name="password"
           label="password"
-          className="mb-2 text-lg"
+          className="text-sm w-full"
+          disabled={loading}
         />
-        {credError?.length > 0 && <p className="text-red-500">{credError}</p>}
+        {credError?.length > 0 && (
+          <p className="text-red-500 text-sm w-2/3">{credError}</p>
+        )}
         <div className="flex items-center justify-between">
-          <Link className="underline text-muted-foreground" href="/register">
+          <Link
+            className="underline text-sm text-muted-foreground"
+            href="/register"
+          >
             Don't have an account?
           </Link>
           <Link
-            className="underline text-muted-foreground"
+            className="underline text-sm text-muted-foreground"
             href="/forgot-password"
           >
             Forgot password?
           </Link>
         </div>
         <div className="mt-4">
-          <Button size="lg" className="w-full text-lg" type="submit">
+          <Button size="sm" className="w-full text-sm" type="submit" disabled={loading}>
             Login
           </Button>
           <Separator className="my-4 bg-gray-400" />
           <Button
             type="button"
-            size="lg"
-            className="w-full mb-2 flex items-center gap-2 text-lg"
+            size="sm"
+            className="w-full mb-2 flex items-center gap-2 text-sm"
             onClick={() => signIn("google")}
+            disabled={loading}
           >
             <FcGoogle size="1.6rem" /> Login with Google
           </Button>
           <Button
             type="button"
-            size="lg"
-            className="w-full flex items-center gap-2 text-lg"
+            size="sm"
+            className="w-full flex items-center gap-2 text-sm"
+            variant="outline"
             onClick={() => signIn("github")}
+            disabled={loading}
           >
             <FaGithub size="1.6rem" /> Login with GitHub
           </Button>

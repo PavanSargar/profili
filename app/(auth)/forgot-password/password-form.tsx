@@ -1,18 +1,19 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { z } from "zod";
 import { newPasswordSchema } from "../schema";
 import { Input } from "@components/ui/input";
-import { z } from "zod";
 import { Button } from "@components/ui/button";
 
 interface PasswordFormProps {
   onSubmitNewPassword: (password: string) => void;
+  loading: boolean;
 }
 
 type RegisterFormValues = z.infer<typeof newPasswordSchema>;
 
-const PasswordForm = ({ onSubmitNewPassword }: PasswordFormProps) => {
+const PasswordForm = ({ onSubmitNewPassword, loading }: PasswordFormProps) => {
   const {
     register,
     handleSubmit,
@@ -33,23 +34,27 @@ const PasswordForm = ({ onSubmitNewPassword }: PasswordFormProps) => {
       <Input
         {...register("password", { required: true })}
         error={errors.password?.message}
-        placeholder="Enter Password"
+        placeholder="Enter password"
         type="password"
         name="password"
-        label="password"
-        className="mb-2 text-lg"
+        label="Password"
+        className="mb-2 text-sm"
       />
       <Input
         {...register("passwordConfirm", { required: true })}
         error={errors.passwordConfirm?.message}
-        placeholder="Enter passwordConfirm"
+        placeholder="Re-enter password"
         type="password"
         name="passwordConfirm"
-        label="Re-enter Password"
-        className="mb-2 text-lg"
+        label="Re-enter password"
+        className="mb-2 text-sm"
       />
 
-      <Button type="submit">Submit</Button>
+      <div className="flex items-center justify-end">
+        <Button type="submit" size="sm" variant="outline" disabled={loading}>
+          Submit
+        </Button>
+      </div>
     </form>
   );
 };

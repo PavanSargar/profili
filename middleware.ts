@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-const protectedRoutes = ["/profile", "/appearance", "/seo"];
+const protectedRoutes = ["/dashboard", "/appearance", "/seo"];
 
 export { default } from "next-auth/middleware";
 

@@ -17,6 +17,7 @@ interface NavbarProps {
 
 const Navbar = ({ session }: NavbarProps) => {
   const isSession = !!session?.user?.email;
+
   return (
     <NavigationMenu className="my-12 mx-20 p-4 px-6 border-white bg-muted rounded-lg shadow-md">
       <div className="flex items-center justify-between w-screen">

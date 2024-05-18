@@ -5,6 +5,9 @@ import GoogleProvider from "next-auth/providers/google";
 import bcrypt from "bcryptjs";
 import dbConnect from "@api/db";
 import User from "@models/user";
+import Profile from "@models/profile";
+
+let isPicSavedFromSocials: boolean = false;
 
 export const AuthConfig: NextAuthOptions = {
   pages: {
@@ -12,7 +15,7 @@ export const AuthConfig: NextAuthOptions = {
     newUser: "/register",
   },
   session: {
-    strategy: 'jwt',
+    strategy: "jwt",
   },
   providers: [
     CredentialsProvider({
@@ -25,18 +28,35 @@ export const AuthConfig: NextAuthOptions = {
       async authorize(credentials: any, req) {
         await dbConnect();
         try {
-          const user = await User.findOne({ email: credentials?.email });
-          if (user) {
-            const isPasswordValid = await bcrypt.compare(
-              credentials?.password,
-              user?.password
-            );
-            if (isPasswordValid) {
-              return user;
-            }
+          const user = await User.findOne({ email: credentials?.email })
+            .lean()
+            .select(["email", "password"]);
+
+          if (!user?._id) {
+            return null;
           }
+          const isPasswordValid = await bcrypt.compare(
+            credentials?.password,
+            user?.password
+          );
+
+          if (!isPasswordValid) {
+            return null;
+          }
+
+          const profile = await Profile.findOne({ user: user?._id })
+            .lean()
+            .select(["displayName", "profilePic", "bio"]);
+
+          return {
+            id: profile?._id,
+            name: profile?.displayName,
+            email: user?.email,
+            image: profile?.profilePic,
+          };
         } catch (err: any) {
-          return err;
+          console.log(err)
+          return null;
         }
       },
     }),
@@ -107,12 +127,21 @@ export const AuthConfig: NextAuthOptions = {
               firstName: user?.given_name,
               lastName: user?.family_name,
             });
+            const savedUser = await newUser.save();
 
-            await newUser.save();
+            const newProfile = new Profile({
+              user: savedUser?._id,
+              profilePic: user?.picture || "",
+              displayName: `${user?.given_name} ${user?.family_name}`,
+            });
+            await newProfile.save();
+            isPicSavedFromSocials = true;
+
             return true;
           }
           return true;
         } catch (error: any) {
+          isPicSavedFromSocials = false;
           console.log("error saving user", error?.message);
           return false;
         }
@@ -121,11 +150,19 @@ export const AuthConfig: NextAuthOptions = {
       return true;
     },
     async jwt({ token, user, account }: any) {
+      const foundUser = await User.findOne({ email: user?.email })
+        .lean()
+        .select(["email"]);
+
+      const profile = await Profile.findOne({ user: foundUser?._id })
+        .lean()
+        .select(["displayName", "profilePic", "bio"]);
+
       if (account?.provider === "google") {
         return {
           ...token,
           id: user?.id,
-          picture: user?.picture,
+          picture: isPicSavedFromSocials ? user?.picture : profile?.profilePic,
           firstName: user?.given_name,
           lastName: user?.family_name,
           role: user?.role,
@@ -133,10 +170,10 @@ export const AuthConfig: NextAuthOptions = {
       } else if (account?.provider === "github") {
         return {
           ...token,
+          picture: isPicSavedFromSocials ? user?.picture : profile?.profilePic,
           firstName: user?.firstName,
           lastName: user?.lastName,
           role: user?.role,
-          picture: user?.picture,
           email: user?.email,
         };
       }

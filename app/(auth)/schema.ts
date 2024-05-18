@@ -26,6 +26,8 @@ export const registerSchema = z
     path: ["passwordConfirm"],
   });
 
+export type RegisterFormValues = z.infer<typeof registerSchema>;
+
 export const newPasswordSchema = z
   .object({
     password: z.string().min(1, "Password is required"),

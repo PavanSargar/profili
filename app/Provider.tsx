@@ -1,9 +1,9 @@
 "use client";
+import React, { PropsWithChildren } from "react";
+import { SessionProvider } from "next-auth/react";
+import { Session } from "next-auth";
 import { ThemeProvider } from "@components/theme-provider";
 import { Toaster } from "@components/ui/toaster";
-import { Session } from "next-auth";
-import { SessionProvider } from "next-auth/react";
-import React, { PropsWithChildren } from "react";
 
 interface ProviderProps extends PropsWithChildren {
   session: Session;

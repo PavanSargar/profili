@@ -8,7 +8,6 @@ export interface MethodsEntity {
   DELETE: "delete";
 }
 
-
 //* Use these endpoints while make api requests
 //* these are example requests change as per your routes
 export const Config = {

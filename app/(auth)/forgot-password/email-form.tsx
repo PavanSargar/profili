@@ -3,6 +3,7 @@ import React from "react";
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
 import { SubmitHandler, useForm } from "react-hook-form";
+import Loader from "@components/loader";
 
 interface EmailFormProps {
   onRequestOtp: (email: string) => void;
@@ -24,6 +25,7 @@ const EmailForm = ({ onRequestOtp, loading }: EmailFormProps) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
+      <h2 className="mb-1">Enter your registered Email Id</h2>
       <Input
         {...register("email", { required: true })}
         error={errors.email?.message}
@@ -31,13 +33,20 @@ const EmailForm = ({ onRequestOtp, loading }: EmailFormProps) => {
         name="email"
         label="Email"
         type="email"
-        className=" text-lg"
+        className="text-md mb-2"
         required
       />
-
-      <Button disabled={loading} type="submit" className="w-fit">
-        {loading ? "Requesting OTP" : "Request OTP"}
-      </Button>
+      <div className="flex items-center justify-end">
+        <Button className="w-fit" disabled={loading} type="submit" size="sm" variant='outline'>
+          {loading ? (
+            <span className="flex items-center gap-1">
+              Requesting OTP <Loader />
+            </span>
+          ) : (
+            "Request OTP"
+          )}
+        </Button>
+      </div>
     </form>
   );
 };

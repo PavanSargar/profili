@@ -49,19 +49,21 @@ const ForgotPassword = (props: ForgotPasswordProps) => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-[100svh]">
-      {step === 0 && (
-        <EmailForm loading={isPending} onRequestOtp={handleRequestOtp} />
-      )}
-      {error && <p className="text-destructive">{error?.message}</p>}
+    <div className="flex items-center justify-center lg:h-[100svh] p-6 lg:p-0">
+      <div className="flex flex-col gap-2 w-auto lg:min-w-[30%] border border-muted border-1 rounded-xl p-6">
+        {step === 0 && (
+          <EmailForm loading={isPending} onRequestOtp={handleRequestOtp} />
+        )}
+        {error && <p className="text-destructive">{error?.message}</p>}
 
-      {step === 1 && (
-        <OTPForm loading={isVerifyOtpPending} onVerifyOtp={handleVerifyOtp} />
-      )}
+        {step === 1 && (
+          <OTPForm loading={isVerifyOtpPending} onVerifyOtp={handleVerifyOtp} />
+        )}
 
-      {step === 2 && (
-        <PasswordForm onSubmitNewPassword={handleChangePassword} />
-      )}
+        {step === 2 && (
+          <PasswordForm loading={isChangePasswordPending} onSubmitNewPassword={handleChangePassword} />
+        )}
+      </div>
     </div>
   );
 };

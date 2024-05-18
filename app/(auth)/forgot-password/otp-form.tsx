@@ -3,7 +3,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
 import { Button } from "@components/ui/button";
 import {
   Form,
@@ -19,7 +18,6 @@ import {
   InputOTPGroup,
   InputOTPSlot,
 } from "@components/ui/input-otp";
-import { toast } from "@components/ui/use-toast";
 
 const FormSchema = z.object({
   pin: z.string().min(6, {
@@ -43,14 +41,6 @@ function OTPForm({ onVerifyOtp, loading }: OTPFormProps) {
     if (onVerifyOtp) {
       onVerifyOtp(data.pin);
     }
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
   }
 
   const isDisabled = Boolean(
@@ -61,13 +51,13 @@ function OTPForm({ onVerifyOtp, loading }: OTPFormProps) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
         <FormField
           control={form.control}
           name="pin"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>One-Time Password</FormLabel>
+              <FormLabel>Enter One-Time Password</FormLabel>
               <FormControl>
                 <InputOTP maxLength={6} {...field}>
                   <InputOTPGroup>
@@ -80,17 +70,24 @@ function OTPForm({ onVerifyOtp, loading }: OTPFormProps) {
                   </InputOTPGroup>
                 </InputOTP>
               </FormControl>
-              <FormDescription>
-                Please enter the one-time password sent to your phone.
+              <FormDescription className="w-2/3">
+                Please enter the one-time password sent to your Email.
               </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
 
-        <Button disabled={isDisabled || loading} type="submit">
-          Submit
-        </Button>
+        <div className="flex items-center justify-end">
+          <Button
+            disabled={isDisabled || loading}
+            type="submit"
+            size="sm"
+            variant="outline"
+          >
+            Verify OTP
+          </Button>
+        </div>
       </form>
     </Form>
   );

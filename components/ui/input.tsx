@@ -23,8 +23,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           ref={ref}
           {...props}
         />
-        {message && <p className="text-muted">{message}</p>}
-        {error && <p className="text-red-600">{error}</p>}
+        {message && <p className="text-muted text-sm">{message}</p>}
+        {error && <p className="text-red-600 text-xs">{error}</p>}
       </div>
     );
   }
