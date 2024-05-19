@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth";
 import Hero from "./_components/hero";
-import Navbar from "@components/partials/Navbar";
-import Footer from "@components/partials/Footer";
+import Navbar from "@components/partials/navbar";
+import Footer from "@components/partials/footer";
 
 export default async function Home() {
   const session = await getServerSession();

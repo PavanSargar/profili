@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
-import User from "@models/user";
-import Profile from "@models/profile";
+import User from "@models/user.model";
+import Profile from "@models/profile.model";
 import dbConnect from "@api/db";
 
 export const POST = async (req: NextRequest, res: NextResponse) => {

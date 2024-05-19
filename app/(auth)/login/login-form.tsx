@@ -33,11 +33,11 @@ const LoginForm = (props: LoginFormProps) => {
 
   const isAuthenticated = session.status === "authenticated";
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      redirect("/");
-    }
-  }, [isAuthenticated, session]);
+  // useEffect(() => {
+  //   if (isAuthenticated) {
+  //     redirect("/");
+  //   }
+  // }, [isAuthenticated, session]);
 
   const [credError, setCredError] = useState<string>("");
 
@@ -57,7 +57,7 @@ const LoginForm = (props: LoginFormProps) => {
     }
 
     if (res?.ok) {
-      router.push("/");
+      router.refresh();
     }
   };
   return (
@@ -104,7 +104,12 @@ const LoginForm = (props: LoginFormProps) => {
           </Link>
         </div>
         <div className="mt-4">
-          <Button size="sm" className="w-full text-sm" type="submit" disabled={loading}>
+          <Button
+            size="sm"
+            className="w-full text-sm"
+            type="submit"
+            disabled={loading}
+          >
             Login
           </Button>
           <Separator className="my-4 bg-gray-400" />

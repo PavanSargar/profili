@@ -1,7 +1,7 @@
 "use client";
 import React, { PropsWithChildren } from "react";
-import Footer from "@components/partials/Footer";
-import Navbar from "@components/partials/Navbar";
+import Footer from "@components/partials/footer";
+import Navbar from "@components/partials/navbar";
 
 interface WrapperProps extends PropsWithChildren {}
 

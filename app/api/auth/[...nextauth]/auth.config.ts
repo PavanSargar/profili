@@ -4,8 +4,8 @@ import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import bcrypt from "bcryptjs";
 import dbConnect from "@api/db";
-import User from "@models/user";
-import Profile from "@models/profile";
+import User from "@models/user.model";
+import Profile from "@models/profile.model";
 
 let isPicSavedFromSocials: boolean = false;
 
@@ -55,8 +55,8 @@ export const AuthConfig: NextAuthOptions = {
             image: profile?.profilePic,
           };
         } catch (err: any) {
-          console.log(err)
-          return null;
+          console.error(err)
+          return err;
         }
       },
     }),

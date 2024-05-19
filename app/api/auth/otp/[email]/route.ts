@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { MailOptions } from "nodemailer/lib/json-transport";
-import User from "@models/user";
+import User from "@models/user.model";
 import dbConnect from "@api/db";
 import sendMail from "@utils/send-mail";
 import { generateAndExpireOTP, isOTPValid } from "@utils/generate-otp";
