@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { CircleUser, Menu, Package2, Search } from "lucide-react";
+import { CircleUser, Menu, Package2 } from "lucide-react";
 import { signOut } from "next-auth/react";
 import { Button } from "@components/ui/button";
 import {
@@ -10,7 +10,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@components/ui/dropdown-menu";
-import { Input } from "@components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@components/ui/sheet";
 import { ThemeModeToggle } from "@components/theme-toggle";
 
