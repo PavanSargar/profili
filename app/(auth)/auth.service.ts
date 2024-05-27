@@ -7,8 +7,6 @@ import { errorTypes } from "config/constants";
 const registerUser = async (data: RegisterFormValues) => {
   await axiosClient.post("/api/auth/register", {
     ...data,
-    //todo: error testing, remove later.
-    password: "sdfsdf",
   });
 };
 
@@ -26,7 +24,7 @@ export const useRegisterUser = () => {
     onError(error: any, variables, context) {
       const message = error?.response?.data?.error?.message;
       const errors = error?.response?.data?.error?.errors as string[];
-      
+
       if (message === errorTypes.validation) {
         toast({
           title: `Validation Error`,

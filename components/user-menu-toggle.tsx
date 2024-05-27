@@ -29,7 +29,7 @@ export function UserMenuToggle({ image, name }: UserMenuToggleProps) {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Avatar className="cursor-pointer">
-          <AvatarImage src={image} />
+          <AvatarImage className="h-full w-full rounded-full" src={image} />
           {!Boolean(image) && (
             <AvatarFallback className="bg-slate-300 text-black">
               {avatarFallback}

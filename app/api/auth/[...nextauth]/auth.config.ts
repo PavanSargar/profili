@@ -6,6 +6,7 @@ import bcrypt from "bcryptjs";
 import dbConnect from "@api/db";
 import User from "@models/user.model";
 import Profile from "@models/profile.model";
+import Appearance from "@models/appearance.model";
 
 let isPicSavedFromSocials: boolean = false;
 
@@ -55,7 +56,7 @@ export const AuthConfig: NextAuthOptions = {
             image: profile?.profilePic,
           };
         } catch (err: any) {
-          console.error(err)
+          console.error(err);
           return err;
         }
       },
@@ -134,7 +135,12 @@ export const AuthConfig: NextAuthOptions = {
               profilePic: user?.picture || "",
               displayName: `${user?.given_name} ${user?.family_name}`,
             });
-            await newProfile.save();
+            const newAppearance = new Appearance({
+              user: savedUser?._id,
+            });
+
+            await Promise.all([newProfile.save(), newAppearance.save()]);
+
             isPicSavedFromSocials = true;
 
             return true;
