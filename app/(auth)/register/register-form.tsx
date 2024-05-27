@@ -10,7 +10,7 @@ import { FcGoogle } from "react-icons/fc";
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
 import { Separator } from "@components/ui/separator";
-import { RegisterFormValues, registerSchema } from "../schema";
+import { RegisterFormValues, registerSchema } from "../auth.schema";
 import { useRegisterUser } from "../auth.service";
 
 type Props = {};

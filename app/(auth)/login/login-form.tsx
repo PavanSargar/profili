@@ -11,7 +11,7 @@ import { FcGoogle } from "react-icons/fc";
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
 import { Separator } from "@components/ui/separator";
-import { loginSchema } from "../schema";
+import { loginSchema } from "../auth.schema";
 
 type LoginFormValues = z.infer<typeof loginSchema>;
 

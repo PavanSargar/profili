@@ -22,7 +22,7 @@ const profileSchema: Schema<IProfile> = new Schema(
     profilePic: {
       type: String,
       required: false,
-      default: '',
+      default: "",
     },
     bio: {
       type: String,

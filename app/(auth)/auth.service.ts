@@ -1,11 +1,14 @@
 import { useMutation } from "@tanstack/react-query";
 import { useToast } from "@components/ui/use-toast";
 import axiosClient from "config/_axios-client";
-import { RegisterFormValues } from "./schema";
+import { RegisterFormValues } from "./auth.schema";
+import { errorTypes } from "config/constants";
 
 const registerUser = async (data: RegisterFormValues) => {
   await axiosClient.post("/api/auth/register", {
     ...data,
+    //todo: error testing, remove later.
+    password: "sdfsdf",
   });
 };
 
@@ -20,11 +23,22 @@ export const useRegisterUser = () => {
         variant: "successive",
       });
     },
-    onError(error, variables, context) {
-      toast({
-        title: `There's some issue while registering user. Please try again later.`,
-        variant: "destructive",
-      });
+    onError(error: any, variables, context) {
+      const message = error?.response?.data?.error?.message;
+      const errors = error?.response?.data?.error?.errors as string[];
+      
+      if (message === errorTypes.validation) {
+        toast({
+          title: `Validation Error`,
+          description: `${errors?.join("\n")}`,
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: `There's some issue while registering user. Please try again later.`,
+          variant: "destructive",
+        });
+      }
     },
   });
 

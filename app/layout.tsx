@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Session, getServerSession } from "next-auth";
-import RTKClientProvider from "@components/rtk-client-provider";
+import RTKClientProvider from "config/rtk-client-provider";
 import Provider from "./provider";
 import { fonts } from "./fonts";
 import { cn } from "@utils/classname";

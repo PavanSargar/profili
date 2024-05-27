@@ -1,13 +1,30 @@
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
+import dbConnect from "@api/db";
 import User from "@models/user.model";
 import Profile from "@models/profile.model";
-import dbConnect from "@api/db";
+import Appearance from "@models/appearance.model";
+import { registerSchema } from "app/(auth)/auth.schema";
+import {
+  sendValidationErrorResponse,
+  validateBody,
+} from "@api/helpers/validation-utils";
 
 export const POST = async (req: NextRequest, res: NextResponse) => {
-  const { email, password, firstName, lastName } = await req.json();
+  const body = await req.json();
   try {
+    //* field validation
+    const validation = validateBody(registerSchema, {
+      ...body,
+      passwordConfirm: body?.password,
+    });
+    if (validation.error) {
+      return sendValidationErrorResponse(validation.error, res);
+    }
+    const { email, firstName, lastName, password } = validation.data;
+
     await dbConnect();
+
     const existingUser = await User.findOne({ email });
     if (existingUser)
       return new NextResponse(
@@ -38,8 +55,17 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
       displayName: `${savedUser?.firstName} ${savedUser?.lastName}`,
     });
 
-    const savedProfile = await newProfile.save();
-    if (!savedProfile) {
+    const newAppearance = new Appearance({
+      user: savedUser?._id,
+    });
+
+    //* new user profile and default appearance settings
+    const [savedProfile, savedAppearance] = await Promise.all([
+      newProfile.save(),
+      newAppearance.save(),
+    ]);
+
+    if (!savedProfile && !savedAppearance) {
       return new NextResponse(`Something went wrong while registering user`, {
         status: 500,
       });

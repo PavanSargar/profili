@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
-import { newPasswordSchema } from "../schema";
+import { newPasswordSchema } from "../auth.schema";
 import { Input } from "@components/ui/input";
 import { Button } from "@components/ui/button";
 
