@@ -1,11 +1,13 @@
-import React from 'react'
+import LinkLIst from "./components/link-list";
 
-type Props = {}
+type Props = {};
 
 const Links = (props: Props) => {
   return (
-    <div>Links</div>
-  )
-}
+    <div>
+      <LinkLIst />
+    </div>
+  );
+};
 
-export default Links
+export default Links;

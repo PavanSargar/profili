@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { MailOptions } from "nodemailer/lib/json-transport";
-import User from "@models/user.model";
-import dbConnect from "@api/db";
-import sendMail from "@utils/send-mail";
-import { generateAndExpireOTP, isOTPValid } from "@utils/generate-otp";
-import { getOtpTemplate } from "@api/templates/otp";
-import OtpModel from "@models/otp.model";
+import User from "@api/_models/user.model";
+import OtpModel from "@api/_models/otp.model";
+import dbConnect from "@api/_config/db";
+import sendMail from "@api/_helpers/send-mail";
+import { generateAndExpireOTP, isOTPValid } from "@api/_helpers/generate-otp";
+import { getOtpTemplate } from "@api/_templates/otp";
 
 interface IGetParams {
   params: {
@@ -61,4 +61,3 @@ export const GET = async (req: NextRequest, { params }: IGetParams) => {
     });
   }
 };
-

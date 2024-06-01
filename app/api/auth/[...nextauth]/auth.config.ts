@@ -3,10 +3,10 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import bcrypt from "bcryptjs";
-import dbConnect from "@api/db";
-import User from "@models/user.model";
-import Profile from "@models/profile.model";
-import Appearance from "@models/appearance.model";
+import dbConnect from "@api/_config/db";
+import User from "@api/_models/user.model";
+import Profile from "@api/_models/profile.model";
+import Appearance from "@api/_models/appearance.model";
 
 let isPicSavedFromSocials: boolean = false;
 
@@ -50,7 +50,7 @@ export const AuthConfig: NextAuthOptions = {
             .select(["displayName", "profilePic", "bio"]);
 
           return {
-            id: profile?._id,
+            id: user?._id,
             name: profile?.displayName,
             email: user?.email,
             image: profile?.profilePic,
@@ -186,12 +186,11 @@ export const AuthConfig: NextAuthOptions = {
       return token;
     },
     async session({ session, token, user }: any) {
-      if (session?.user) {
-        session.user.role = token?.role ?? "";
-        session.user.firstName = token?.firstName;
-        session.user.lastName = token?.lastName;
-      }
-      return session;
+      const foundUser = await User.findOne({ email: session?.user?.email })
+        .lean()
+        .select(["email"]);
+      token.id = foundUser?._id;
+      return token;
     },
   },
 };

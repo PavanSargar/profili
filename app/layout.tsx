@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Session, getServerSession } from "next-auth";
-import RTKClientProvider from "config/rtk-client-provider";
-import Provider from "./provider";
+import Providers from "providers";
+import RTKClientProvider from "providers/rtk-client-provider";
 import { fonts } from "./fonts";
 import { cn } from "@utils/classname";
 import "./globals.css";
@@ -26,7 +26,7 @@ export default async function RootLayout({
             fonts.poppins.variable
           )}
         >
-          <Provider session={session}>{children}</Provider>
+          <Providers session={session}>{children}</Providers>
         </body>
       </html>
     </RTKClientProvider>

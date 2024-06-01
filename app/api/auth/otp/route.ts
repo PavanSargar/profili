@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import dbConnect from "@api/db";
+import dbConnect from "@api/_config/db";
 import { isOTPValid } from "@utils/generate-otp";
-import OtpModel from "@models/otp.model";
-import UserModel from "@models/user.model";
+import OtpModel from "@api/_models/otp.model";
+import UserModel from "@api/_models/user.model";
 import bcrypt from "bcryptjs";
 
 export const POST = async (req: NextRequest, res: NextResponse) => {

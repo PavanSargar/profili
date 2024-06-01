@@ -1,14 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
-import dbConnect from "@api/db";
-import User from "@models/user.model";
-import Profile from "@models/profile.model";
-import Appearance from "@models/appearance.model";
+import dbConnect from "@api/_config/db";
+import User from "@api/_models/user.model";
+import Profile from "@api/_models/profile.model";
+import Appearance from "@api/_models/appearance.model";
 import { registerSchema } from "app/(auth)/auth.schema";
 import {
   sendValidationErrorResponse,
   validateBody,
-} from "@api/helpers/validation-utils";
+} from "@api/_helpers/validation-utils";
 
 export const POST = async (req: NextRequest, res: NextResponse) => {
   const body = await req.json();
@@ -19,7 +19,7 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
       passwordConfirm: body?.password,
     });
     if (validation.error) {
-      return sendValidationErrorResponse(validation.error, res);
+      return sendValidationErrorResponse(validation.error);
     }
     const { email, firstName, lastName, password } = validation.data;
 

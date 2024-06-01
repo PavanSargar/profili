@@ -23,12 +23,13 @@ axiosClient.interceptors.response.use(
       error.response &&
       (status === 401 || status === 403 || status === 429)
     ) {
-      if (window !== undefined) {
-        localStorage.clear();
-      }
-      setTimeout(() => {
-        window.location.pathname = "/login";
-      }, 500);
+      // if (window !== undefined && window) {
+      //   localStorage.clear();
+      //   setTimeout(() => {
+      //     window.location.pathname = "/login";
+      //   }, 500);
+      // }
+ 
     }
 
     return Promise.reject(error);

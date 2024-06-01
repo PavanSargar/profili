@@ -1,3 +1,4 @@
+import { getUserSession } from "@api/_helpers/auth-utils";
 import { NextRequest, NextResponse } from "next/server";
 export { default } from "next-auth/middleware";
 
@@ -11,24 +12,24 @@ const protectedPages = [
 ];
 const authPages = ["/login", "/register", "/forgot-password"];
 
-const protectedApiRoutes = ["/api/link"];
-
 export async function middleware(request: NextRequest, response: NextResponse) {
   const isLoggedIn: boolean = !!request.cookies.get("next-auth.session-token")
     ?.value;
 
+  const absoluteURL = new URL("/", request.nextUrl.origin);
+
   if (!isLoggedIn && protectedPages.includes(request.nextUrl.pathname)) {
-    const absoluteURL = new URL("/", request.nextUrl.origin);
     return NextResponse.redirect(absoluteURL.toString());
   }
 
   if (isLoggedIn && authPages.includes(request.nextUrl.pathname)) {
-    const absoluteURL = new URL("/", request.nextUrl.origin);
     return NextResponse.redirect(absoluteURL.toString());
   }
 
-  //TODO: use this for api middlewares
-  // await isAuthenticated(request);
+  const userSession = await getUserSession(request);
+  if (userSession?.email?.length === 0) {
+    return new NextResponse("Unauthorized", { status: 401 });
+  }
 
   return NextResponse.next();
 }

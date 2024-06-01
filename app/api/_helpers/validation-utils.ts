@@ -1,4 +1,4 @@
-import { errorTypes } from "config/constants";
+import { errorTypes } from "@api/_config/constants";
 import { NextResponse } from "next/server";
 import { ZodError, ZodSchema, z } from "zod";
 
@@ -25,10 +25,7 @@ export function validateBody<T extends ZodSchema>(schema: T, data: unknown) {
   }
 }
 
-export function sendValidationErrorResponse(
-  error: ZodError,
-  res: NextResponse
-) {
+export function sendValidationErrorResponse(error: ZodError) {
   return NextResponse.json(
     {
       error: {

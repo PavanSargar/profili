@@ -2,14 +2,14 @@
 import React, { PropsWithChildren } from "react";
 import { SessionProvider } from "next-auth/react";
 import { Session } from "next-auth";
-import { ThemeProvider } from "config/theme-provider";
+import { ThemeProvider } from "./theme-provider";
 import { Toaster } from "@components/ui/toaster";
 
 interface ProviderProps extends PropsWithChildren {
   session: Session;
 }
 
-const Provider = ({ children, session }: ProviderProps) => {
+const Providers = ({ children, session }: ProviderProps) => {
   return (
     <SessionProvider session={session}>
       <ThemeProvider
@@ -25,4 +25,4 @@ const Provider = ({ children, session }: ProviderProps) => {
   );
 };
 
-export default Provider;
+export default Providers;
