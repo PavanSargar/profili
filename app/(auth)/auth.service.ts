@@ -1,11 +1,11 @@
 import { useMutation } from "@tanstack/react-query";
-import { useToast } from "@components/ui/use-toast";
 import axiosClient from "config/_axios-client";
+import { useToast } from "@components/ui/use-toast";
 import { RegisterFormValues } from "./auth.schema";
-import { errorTypes } from "config/constants";
+import { errorTypes } from "@api/_config/constants";
 
 const registerUser = async (data: RegisterFormValues) => {
-  await axiosClient.post("/api/auth/register", {
+  return await axiosClient.post("/api/auth/register", {
     ...data,
   });
 };
@@ -103,6 +103,7 @@ const changePassword = async ({
 }) => {
   await axiosClient.put("/api/auth/otp", { newPassword: password, user });
 };
+
 const useChangePassword = () => {
   const { toast } = useToast();
 

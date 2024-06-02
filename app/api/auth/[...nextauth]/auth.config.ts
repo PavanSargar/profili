@@ -156,6 +156,7 @@ export const AuthConfig: NextAuthOptions = {
       return true;
     },
     async jwt({ token, user, account }: any) {
+      await dbConnect();
       const foundUser = await User.findOne({ email: user?.email })
         .lean()
         .select(["email"]);
@@ -186,6 +187,7 @@ export const AuthConfig: NextAuthOptions = {
       return token;
     },
     async session({ session, token, user }: any) {
+      await dbConnect()
       const foundUser = await User.findOne({ email: session?.user?.email })
         .lean()
         .select(["email"]);

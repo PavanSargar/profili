@@ -10,7 +10,7 @@ interface Pagination {
 
 interface SuccessResponse<T> {
   status: "success";
-  data: T;
+  data: T[] | T;
   meta?: Meta;
 }
 

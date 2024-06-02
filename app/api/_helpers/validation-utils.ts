@@ -11,12 +11,12 @@ export function validateBody<T extends ZodSchema>(schema: T, data: unknown) {
         success: true,
         data: result.data as SchemaType,
       };
-    } else {
-      return {
-        success: false,
-        error: result.error,
-      };
     }
+
+    return {
+      success: false,
+      error: result.error,
+    };
   } catch (error) {
     if (error instanceof ZodError) {
       throw error;

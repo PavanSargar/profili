@@ -49,8 +49,9 @@ const DashboardNavbar = (props: Props) => {
           <span className="sr-only">Acme Inc</span>
         </Link>
 
-        {navItems?.map((item) => (
+        {navItems?.map((item, i) => (
           <Link
+            key={`${item}-${i}`}
             href={item.route}
             className="text-foreground transition-colors hover:text-foreground"
           >
@@ -75,8 +76,8 @@ const DashboardNavbar = (props: Props) => {
               <span className="sr-only">Acme Inc</span>
             </Link>
 
-            {navItems?.map((item) => (
-              <SheetTrigger asChild>
+            {navItems?.map((item, i) => (
+              <SheetTrigger key={`${item}-${i}`} asChild>
                 <Link href={item?.route} className="hover:text-foreground">
                   {item?.label}
                 </Link>
