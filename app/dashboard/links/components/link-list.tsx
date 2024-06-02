@@ -1,20 +1,29 @@
 "use client";
-import React, { useEffect } from "react";
-import axiosClient from "config/_axios-client";
+import React from "react";
+import { useGetLinks } from "../link.service";
 
 type Props = {};
 
 const LinkLIst = (props: Props) => {
-  const fetchLinks = async () => {
-    const links = await axiosClient.get("/api/link");
-    console.log("links repsonse:::", links.data);
-  };
+  const { data, error, isLoading, isSuccess } = useGetLinks();
 
-  useEffect(() => {
-    fetchLinks();
-  }, []);
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
-  return <div>LinkLIst</div>;
+  if (error) {
+    return <div>Error while fetching links</div>;
+  }
+
+  console.log(data)
+
+  return (
+    <div>
+      {data?.map((item) => (
+        <li key={item?._id}>{item?.title}</li>
+      ))}
+    </div>
+  );
 };
 
 export default LinkLIst;

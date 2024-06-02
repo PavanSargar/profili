@@ -7,13 +7,18 @@ export const LinkSchema = z
     url: z.string().url("Please enter a valid URL"),
     clicks: z.number().optional(),
     pin: z.boolean().optional(),
-    thumbnail: z.string().url("Please enter a valid URL"),
-    order: z.number().optional(),
-    user: z.string(),
+    thumbnail: z.string().url("Please enter a valid URL").optional(),
+    order: z.number(),
+    active: z.boolean().optional(),
+    // user: z.string(),
+    // _id: z.string().optional()
   })
-  .refine((schema) => isValidObjectId(schema.user), {
-    message: "Invalid Mongo ID",
-    path: ["user"],
-  });
+  // .refine((schema) => isValidObjectId(schema.user), {
+  //   message: "Invalid Mongo ID",
+  //   path: ["user"],
+  // });
 
 export type LinkType = z.infer<typeof LinkSchema>;
+export interface LinkEntity extends LinkType {
+  _id: string;
+}
