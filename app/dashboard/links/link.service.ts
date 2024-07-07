@@ -16,12 +16,12 @@ const getLinks = async () => {
 };
 
 export const useGetLinks = () => {
-  const { data, error, isLoading, isSuccess,  } = useQuery<LinkEntity[], Error>({
+  const { data, error, isLoading, isSuccess } = useQuery<LinkEntity[], Error>({
     queryKey: ["links"],
     queryFn: getLinks,
   });
 
-  return { data, error, isLoading, isSuccess,  };
+  return { data, error, isLoading, isSuccess };
 };
 
 export const useCreateLink = () => {

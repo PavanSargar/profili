@@ -1,21 +1,17 @@
-import mongoose, { Document, Schema, Types } from "mongoose";
+import mongoose, { Document, Model, Schema, Types } from "mongoose";
 
-// TODO: add types for others and separate them
-type AppearanceStyleType = "BENTO" | "LINKS" | "PORTFOLIO";
-type ButtonStyleType = "PRIMARY" | "SECONDARY";
+export type AppearanceStyleType = "BENTO" | "LINKS" | "PORTFOLIO";
+export type HeaderAlignmentType = "CENTER" | "LEFT" | "RIGHT";
 
 interface IAppearance extends Document {
   user: Types.ObjectId;
   style: AppearanceStyleType;
-  darkMode: boolean;
-  bgImage?: string;
-  bgColor: string;
-  fontFamily: string;
-  headerAlignment: string;
-  buttonStyle: ButtonStyleType;
-  profilePicBorder: string;
-  textColor: string;
-  TitleColor: string;
+  darkMode?: boolean;
+  background?: Types.ObjectId;
+  theme?: Types.ObjectId;
+  button?: Types.ObjectId;
+  font?: Types.ObjectId;
+  headerAlignment: HeaderAlignmentType;
 }
 
 const appearanceSchema: Schema<IAppearance> = new Schema({
@@ -26,44 +22,39 @@ const appearanceSchema: Schema<IAppearance> = new Schema({
   },
   style: {
     type: String,
+    enum: ["BENTO", "LINKS", "PORTFOLIO"],
     default: "LINKS",
   },
   darkMode: {
     type: Boolean,
     default: false,
   },
-  buttonStyle: {
-    type: String,
-    default: "PRIMARY",
+  background: {
+    type: Types.ObjectId,
+    ref: "Background",
+    required: false,
   },
-  bgImage: {
-    type: String,
+  theme: {
+    type: Types.ObjectId,
+    ref: "Theme",
+    required: false,
   },
-  bgColor: {
-    type: String,
-    default: "DEFAULT",
+  button: {
+    type: Types.ObjectId,
+    ref: "Button",
+    required: false,
   },
-  fontFamily: {
-    type: String,
-    default: "PRIMARY",
+  font: {
+    type: Types.ObjectId,
+    ref: "Font",
+    required: false,
   },
   headerAlignment: {
     type: String,
+    enum: ["CENTER", "LEFT", "RIGHT"],
     default: "CENTER",
-  },
-  profilePicBorder: {
-    type: String,
-    default: "NONE",
-  },
-  textColor: {
-    type: String,
-    default: "DEFAULT",
-  },
-  TitleColor: {
-    type: String,
-    default: "DEFAULT",
   },
 });
 
-export default mongoose.models.Appearance ||
-  mongoose.model<IAppearance>("Appearance", appearanceSchema);
+export default (mongoose.models.Appearance ||
+  mongoose.model("Appearance", appearanceSchema)) as Model<IAppearance>;

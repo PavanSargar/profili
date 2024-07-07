@@ -63,7 +63,7 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
   }
 };
 
-//* get links
+//* get links private
 export const GET = async (req: any, res: NextResponse) => {
   try {
     const session = await getServerSession(AuthConfig);
@@ -96,7 +96,6 @@ export const GET = async (req: any, res: NextResponse) => {
     return createResponse.error("Error while creating links", 500);
   }
 };
-
 
 //* update links order
 export const PUT = async (req: Request, res: NextResponse) => {

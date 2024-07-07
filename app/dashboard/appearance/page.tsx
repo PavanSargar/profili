@@ -1,11 +1,20 @@
-import React from 'react'
+"use client";
+import React from "react";
+import { useGetAppearance } from "./appearance.service";
 
-type Props = {}
+type Props = {};
 
 const Appearance = (props: Props) => {
-  return (
-    <div>Appearance</div>
-  )
-}
+  const { data, isLoading, error } = useGetAppearance();
 
-export default Appearance
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error while getting appearance</div>;
+  }
+  return <div>{JSON.stringify(data)}</div>;
+};
+
+export default Appearance;

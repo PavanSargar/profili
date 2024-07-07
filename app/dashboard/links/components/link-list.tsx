@@ -15,13 +15,13 @@ const LinkLIst = (props: Props) => {
     return <div>Error while fetching links</div>;
   }
 
-  console.log(data)
-
   return (
     <div>
-      {data?.map((item) => (
-        <li key={item?._id}>{item?.title}</li>
-      ))}
+      {data?.length ? (
+        data?.map((item) => <li key={item?._id}>{item?.title}</li>)
+      ) : (
+        <>No links added yet</>
+      )}
     </div>
   );
 };
