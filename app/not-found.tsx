@@ -1,3 +1,4 @@
+import { Button } from "@components/ui/button";
 import Link from "next/link";
 
 export default function NotFound() {
@@ -5,7 +6,10 @@ export default function NotFound() {
     <div className="text-white flex flex-col items-center justify-center h-screen w-screen">
       <h2>Not Found</h2>
       <p>Could not find requested resource</p>
-      <Link href="/">Return Home</Link>
+
+      <Link href="/">
+        <Button>Return Home</Button>
+      </Link>
     </div>
   );
 }

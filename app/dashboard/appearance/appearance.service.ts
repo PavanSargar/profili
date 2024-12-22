@@ -12,7 +12,7 @@ const useGetAppearance = () => {
     AppearanceEntity[],
     Error
   >({
-    queryKey: ["links"],
+    queryKey: ["appearance"],
     queryFn: getAppearance,
   });
 
